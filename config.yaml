@@ -2,3 +2,11 @@ weight: "bert-base-multilingual-cased"
 max_length: 64
 batch_size: 128
 learning_rate: 0.0005
+seq2seq_hp:
+  lr: 0.0005
+  max_length: 64
+  n_samples: 5
+  input_size: 30000
+  word_vec_size: 256
+  hidden_size: 256
+  output_size: 256

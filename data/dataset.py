@@ -5,6 +5,13 @@ from transformers import AutoTokenizer
 from torch.utils.data import Dataset
 from datasets import load_dataset
 
+SPECIAL_TOKEN = {
+    "BOS": "[BOS]",
+    "EOS": "[EOS]",
+    "SEP": "[SEP]",
+    "PAD": "[PAD]"
+}
+
 
 class NMTDataset(Dataset):
     def __init__(self, weight: str, phase: str = "train", max_length: int = 64) -> None:
@@ -14,6 +21,8 @@ class NMTDataset(Dataset):
             raise ValueError
         self.dataset = data[phase]
         self.tokenizer = AutoTokenizer.from_pretrained(weight)
+        for st in SPECIAL_TOKEN.values():
+            self.tokenizer.add_tokens(st, special_tokens=True)
         self.max_length = max_length
 
     def __len__(self) -> int:
@@ -27,6 +36,8 @@ class NMTDataset(Dataset):
         data = self.dataset[index]
         kor = data["korean"]
         eng = data["english"]
-        kor_text = f"{self.bos}{kor}{self.eos}"
-        eng_text = f"{self.bos}{eng}{self.eos}"
-        return (self.tokenize(kor_text), self.tokenize(eng_text)["input_ids"])
+        # Raw target variable has both BOS and EOS token.
+        # The output of sequence-to-sequence does not have BOS token.
+        # Thus, remove BOS token for reference.
+        return (self.tokenize(f"[BOS]{kor}[EOS]")["input_ids"], f"[BOS]{kor}[EOS]"),\
+            (self.tokenize(f"[BOS]{eng}[EOS]")["input_ids"], f"{eng}[EOS]")

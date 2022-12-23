@@ -1,3 +1,5 @@
+import os
+
 from pytorch_lightning.trainer import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
@@ -6,10 +8,13 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from model import NMTTrainModule
 from data import NMTDataModule
 
+os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 
 logger = TensorBoardLogger(
     save_dir="logs",
-    name="gpt2",
+    name="seq2seq",
     default_hp_metric=False
 )
 
@@ -30,7 +35,7 @@ earlystop_callback = EarlyStopping(
 
 trainer = Trainer(
     logger=logger, callbacks=[ckpt_callback, earlystop_callback],
-    accelerator="gpu", log_every_n_steps=50, devices=2
+    accelerator="gpu", log_every_n_steps=50, devices=1
 )
 
 if __name__ == "__main__":
