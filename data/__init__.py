@@ -34,7 +34,6 @@ class NMTDataModule(LightningDataModule):
             dataset=self.train_dataset,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
-            pin_memory=True,
             drop_last=True,
             shuffle=True
         )
@@ -44,7 +43,6 @@ class NMTDataModule(LightningDataModule):
             dataset=self.val_dataset,
             batch_size=self.batch_size * 2,
             num_workers=self.num_workers,
-            pin_memory=True,
             drop_last=False,
             shuffle=False
         )
@@ -54,7 +52,6 @@ class NMTDataModule(LightningDataModule):
             dataset=self.val_dataset,
             batch_size=self.batch_size * 2,
             num_workers=self.num_workers,
-            pin_memory=True,
             drop_last=False,
             shuffle=False
         )

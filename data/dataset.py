@@ -32,12 +32,9 @@ class NMTDataset(Dataset):
         return self.tokenizer(text, return_tensors="pt", max_length=self.max_length,
                               truncation=True, padding="max_length")
 
-    def __getitem__(self, index) -> tuple:
+    def __getitem__(self, index: int) -> tuple:
         data = self.dataset[index]
         kor = data["korean"]
         eng = data["english"]
-        # Raw target variable has both BOS and EOS token.
-        # The output of sequence-to-sequence does not have BOS token.
-        # Thus, remove BOS token for reference.
         return (self.tokenize(f"[BOS]{kor}[EOS]")["input_ids"], f"[BOS]{kor}[EOS]"),\
             (self.tokenize(f"[BOS]{eng}[EOS]")["input_ids"], f"{eng}[EOS]")
