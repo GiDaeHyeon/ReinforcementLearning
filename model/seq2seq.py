@@ -155,6 +155,7 @@ class Seq2Seq(nn.Module):
         h_tilde = []
         h_t_tilde = None
         decoder_hidden = h_0_tgt
+
         for t in range(tgt.size(1)):
             emb_t = emb_tgt[:, t, :].unsqueeze(1)
             decoder_output, decoder_hidden = self.decoder(
