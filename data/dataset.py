@@ -14,9 +14,6 @@ class NMTDataset(Dataset):
             raise ValueError
         self.dataset = data[phase]
         self.tokenizer = AutoTokenizer.from_pretrained(weight)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.bos = self.tokenizer.bos_token
-        self.eos = self.tokenizer.eos_token
         self.max_length = max_length
 
     def __len__(self) -> int:

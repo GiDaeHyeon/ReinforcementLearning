@@ -15,7 +15,7 @@ class Reward(nn.Module):
         y = y.squeeze()
         for idx in range(y.size(0)):
             ref = self.tokenizer.decode(y[idx]).replace(self.tokenizer.eos_token, "")
-            hyp = self.tokenizer.decode(y_hat[idx]).replace(self.tokenizer.eos_token, "")
+            hyp = self.tokenizer.decode(y_hat[idx]).replace(self.tokenizer., "")
             scores += [glue(ref, hyp) * 100.]
         scores = torch.Tensor(scores)
         return scores

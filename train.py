@@ -30,7 +30,7 @@ earlystop_callback = EarlyStopping(
 
 trainer = Trainer(
     logger=logger, callbacks=[ckpt_callback, earlystop_callback],
-    accelerator="gpu", log_every_n_steps=50, devices=1
+    accelerator="gpu", log_every_n_steps=50, devices=2
 )
 
 if __name__ == "__main__":
